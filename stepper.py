@@ -6,9 +6,7 @@
 #This code is a very basic example of using python to control a spark fun
 # easy driver.  The spark fun easy driver that I am using in this example
 # is connected to a 42HS4013A4 stepper motor and my raspberry pi.  Pin 23
-# is the direction control and pin 24 is the step control.  I am using
-# these components in the www.rowboboat.com project version 2.0 and I
-# hope someone finds this a useful and simple example.
+# is the direction control and pin 24 is the step control. 
 # This program expects two arguments: direction and steps
 #------------------------------------------------------------------------
  
@@ -30,7 +28,7 @@ except:
     steps = 0
  
 #print which direction and how many steps 
-print("You told me to turn %s %s steps.") % (sys.argv[1], steps)
+print("You told me to turn %s %s steps.") % (direction, steps)
 #------------------------------------------------------------------------
  
  
@@ -42,6 +40,8 @@ gpio.setmode(gpio.BCM)
 #GPIO24 = Step
 gpio.setup(23, gpio.OUT)
 gpio.setup(24, gpio.OUT)
+gpio.setup(27, gpio.OUT)
+gpio.setup(17, gpio.OUT)
 #------------------------------------------------------------------------
  
  
@@ -49,8 +49,10 @@ gpio.setup(24, gpio.OUT)
 #set the output to true for left and false for right
 if direction == 'left':
     gpio.output(23, True)
+    gpio.output(17, True)
 elif direction == 'right':
     gpio.output(24, False)
+    gpio.output(27, False)
 #------------------------------------------------------------------------
  
  
@@ -72,7 +74,9 @@ while StepCounter < steps:
  
     #turning the gpio on and off tells the easy driver to take one step
     gpio.output(24, True)
+    gpio.output(27, True)
     gpio.output(24, False)
+    gpio.output(27, False)
     StepCounter += 1
  
     #Wait before taking the next step...this controls rotation speed
